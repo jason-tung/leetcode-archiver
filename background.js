@@ -9,7 +9,7 @@ chrome.action.onClicked.addListener((tab) => {
             chrome.downloads.download(
                 {
                     url,
-                    filename: `leetcode/${difficulty}/${formattedTitle}`,
+                    filename: `leetcode/${difficulty}/${formattedTitle}.py`,
                     // saveAs: true,
                     conflictAction: 'uniquify',
                 },

@@ -23,7 +23,7 @@ const scrapeData = () => {
     const storedText = `#${currentURL}\n${code}`;
 
     // console.log(formattedTitle, difficulty, currentURL);
-    const blob = new Blob([storedText], { type: 'text/plain' });
+    const blob = new Blob([storedText], { type: 'text/python' });
     const url = URL.createObjectURL(blob);
     r = { formattedTitle, difficulty, url };
     // chrome.runtime.sendMessage(r);

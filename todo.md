@@ -1,3 +1,5 @@
 # Todo
-- make it work
-- upload files to a server & autocommit
+
+-   ~make it work~ yeah nah the docs are so bad it's not even funny
+-   cache data on page load so can submit from submissions tab
+-   upload files to a server & autocommit
