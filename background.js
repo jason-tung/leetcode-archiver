@@ -8,7 +8,15 @@ chrome.action.onClicked.addListener((tab) => {
         tabId: tab.id,
         color: 'black',
     });
+
     (async () => {
+        const resp1 = await chrome.tabs.sendMessage(tab.id, {
+            type: 'queryTitle',
+        });
+        if (resp1 && resp1.formattedTitle) {
+            saveTabState(tab.id, resp1);
+        }
+
         const fileText = await chrome.tabs.sendMessage(tab.id, {
             type: 'scrapeLeetCode',
         });
