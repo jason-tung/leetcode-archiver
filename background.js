@@ -68,7 +68,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
             const resp = await chrome.tabs.sendMessage(tabId, {
                 type: 'queryTitle',
             });
-            if (resp) {
+            if (resp && resp.formattedTitle) {
                 saveTabState(tabId, resp);
             }
         })();
