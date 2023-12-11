@@ -1,5 +1,9 @@
 # Todo
 
+I think the only thing left is to add a popup for feedback but idrc about that rn
+
+Maybe send a webhook to discord
+
 -   ~make it work~ yeah nah the docs are so bad it's not even funny
 -   ~pad with zeros and rearchive~
 -   cache data on page load so can submit from submissions tab

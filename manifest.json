@@ -10,7 +10,8 @@
         "service_worker": "background.js"
     },
     "action": {
-        "default_icon": "icon.png"
+        "default_icon": "icon.png",
+        "default_title": "Click to view a popup"
     },
     "content_scripts": [
         {
@@ -18,12 +19,17 @@
             "js": ["script.js"]
         }
     ],
+    "host_permissions": ["http://www.jasontung.me:3001/*"],
     "permissions": [
         "tabs",
         "nativeMessaging",
         "activeTab",
         "scripting",
-        "downloads"
+        "downloads",
+        "storage"
+    ],
+    "web_accessible_resources": [
+        { "resources": ["config/secret.json"], "matches": ["<all_urls>"] }
     ],
     "commands": {
         "_execute_action": {

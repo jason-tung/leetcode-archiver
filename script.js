@@ -1,5 +1,5 @@
 chrome.runtime.onMessage.addListener((obj, sender, sendResponse) => {
-    if (obj.type == 'scrapeLeetCode') sendResponse(getCodeLink());
+    if (obj.type == 'scrapeLeetCode') sendResponse(getCode());
 
     if (obj.type == 'queryTitle') {
         (async () => {
