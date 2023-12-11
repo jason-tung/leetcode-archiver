@@ -1,27 +1,38 @@
 const state = {};
 
-chrome.action.onClicked.addListener((tab) => {
-    console.log('WTF');
-    chrome.action.setBadgeText({ tabId: tab.id, text: 'hi' });
+const extractProblem = (url) => {
+    return /(?:problems\/)([^/]+)/.exec(url)[1];
+};
 
+const cacheTitle = async (tabid, tab) => {
+    const url = tab.url;
+    const resp1 = await chrome.tabs.sendMessage(tabid, {
+        type: 'queryTitle',
+    });
+    if (resp1 && resp1.formattedTitle) {
+        saveTabState(extractProblem(url), resp1);
+    }
+};
+
+const getState = (tab) => {
+    return state[extractProblem(tab.url)];
+};
+
+chrome.action.onClicked.addListener((tab) => {
+    chrome.action.setBadgeText({ tabId: tab.id, text: 'hi' });
     chrome.action.setBadgeBackgroundColor({
         tabId: tab.id,
         color: 'black',
     });
 
     (async () => {
-        const resp1 = await chrome.tabs.sendMessage(tab.id, {
-            type: 'queryTitle',
-        });
-        if (resp1 && resp1.formattedTitle) {
-            saveTabState(tab.id, resp1);
-        }
+        if (!getState(tab)) await cacheTitle(tab.id, tab);
 
         const fileText = await chrome.tabs.sendMessage(tab.id, {
             type: 'scrapeLeetCode',
         });
 
-        const { difficulty, formattedTitle } = state[tab.id];
+        const { difficulty, formattedTitle } = getState(tab);
 
         const password = (
             await (
@@ -72,14 +83,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
         changeInfo.status === 'complete' &&
         tab.status == 'complete'
     ) {
-        (async () => {
-            const resp = await chrome.tabs.sendMessage(tabId, {
-                type: 'queryTitle',
-            });
-            if (resp && resp.formattedTitle) {
-                saveTabState(tabId, resp);
-            }
-        })();
+        cacheTitle(tabId, tab);
     }
     return true;
 });
