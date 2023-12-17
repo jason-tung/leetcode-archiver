@@ -34,6 +34,10 @@ chrome.action.onClicked.addListener((tab) => {
 
         const { difficulty, formattedTitle } = getState(tab);
 
+        const controller = new AbortController();
+
+        const timeoutId = setTimeout(() => controller.abort(), 5000);
+
         const password = (
             await (
                 await fetch(chrome.runtime.getURL('config/secret.json'))
@@ -41,6 +45,7 @@ chrome.action.onClicked.addListener((tab) => {
         )['password'];
 
         const resp = await fetch('http://www.jasontung.me:3001/updateGithub', {
+            signal: controller.signal,
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
