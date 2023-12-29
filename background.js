@@ -65,7 +65,10 @@ chrome.action.onClicked.addListener((tab) => {
                 tabId: tab.id,
                 color: 'green',
             });
-            chrome.action.setBadgeText({ tabId: tab.id, text: d });
+            chrome.action.setBadgeText({
+                tabId: tab.id,
+                text: d.substring(0, d.indexOf('-')),
+            });
         } else {
             console.log(resp);
             chrome.action.setBadgeBackgroundColor({
