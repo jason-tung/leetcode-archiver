@@ -61,13 +61,14 @@ chrome.action.onClicked.addListener((tab) => {
         const d = await resp.text();
 
         if (resp.status == 200) {
+            const badgeText = d.substring(0, d.indexOf('-')).replace(/^0+/, '');
             chrome.action.setBadgeBackgroundColor({
                 tabId: tab.id,
                 color: 'green',
             });
             chrome.action.setBadgeText({
                 tabId: tab.id,
-                text: d.substring(0, d.indexOf('-')),
+                text: badgeText,
             });
         } else {
             console.log(resp);
