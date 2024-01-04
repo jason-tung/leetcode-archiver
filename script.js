@@ -43,7 +43,7 @@ const getCode = () => {
     const code = document.querySelector(
         ".view-lines[role='presentation']"
     ).innerText;
-    const storedText = `#${currentURL}\n${code}`;
+    const storedText = `# ${currentURL}\n${code}`;
     return storedText;
 };
 
