@@ -14,6 +14,7 @@ const cacheTitle = async (tabid, tab) => {
     }
 };
 
+// testings
 const getState = (tab) => {
     return state[extractProblem(tab.url)];
 };
