@@ -97,7 +97,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     return true;
 });
 
-const saveTabState = (tabid, tabstate) => {
-    if (!(tabid in state)) state[tabid] = {};
-    state[tabid] = { ...state[tabid], ...tabstate };
+const saveTabState = (tabIdentifier, tabstate) => {
+    if (!(tabIdentifier in state)) state[tabIdentifier] = {};
+    state[tabIdentifier] = { ...state[tabIdentifier], ...tabstate };
 };

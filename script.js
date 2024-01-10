@@ -1,10 +1,14 @@
+const TITLE_SELECTOR = 'a.no-underline.whitespace-normal';
+const DIFFICULTY_SELECTOR = '[class*="text-difficulty-"]';
+const CODE_SELECTOR = '.view-lines';
+
 chrome.runtime.onMessage.addListener((obj, sender, sendResponse) => {
     if (obj.type == 'scrapeLeetCode') sendResponse(getCode());
 
     if (obj.type == 'queryTitle') {
         (async () => {
             await sleep(250);
-            const elem = await waitForElm('.text-sm.font-medium.capitalize');
+            const elem = await waitForElm(DIFFICULTY_SELECTOR);
             const info = updateTitle();
             if (info) {
                 sendResponse(info);
@@ -21,11 +25,11 @@ function sleep(ms) {
 const difficulties = new Set(['Easy', 'Medium', 'Hard']);
 
 const updateTitle = () => {
-    const diff = document.querySelector('.text-sm.font-medium.capitalize');
+    const diff = document.querySelector(DIFFICULTY_SELECTOR);
     if (diff && difficulties.has(diff.innerText)) {
-        const title = document.querySelector('a.font-medium').innerText;
+        const title = document.querySelector(TITLE_SELECTOR).innerText;
         const difficulty = document
-            .querySelector('.text-sm.font-medium.capitalize')
+            .querySelector(DIFFICULTY_SELECTOR)
             .innerText.toLowerCase();
 
         const formattedTitle = title
@@ -40,9 +44,7 @@ const updateTitle = () => {
 
 const getCode = () => {
     const currentURL = window.location.href;
-    const code = document.querySelector(
-        ".view-lines[role='presentation']"
-    ).innerText;
+    const code = document.querySelector(CODE_SELECTOR).innerText;
     const storedText = `# ${currentURL}\n${code}`;
     return storedText;
 };
