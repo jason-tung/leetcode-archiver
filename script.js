@@ -3,7 +3,7 @@ const DIFFICULTY_SELECTOR = '[class*="text-difficulty-"]';
 const CODE_SELECTOR = '.view-lines';
 
 chrome.runtime.onMessage.addListener((obj, sender, sendResponse) => {
-    if (obj.type == 'scrapeLeetCode') sendResponse(getCode());
+    if (obj.type == 'scrapeLeetCode') sendResponse(getCodeAndUrl());
 
     if (obj.type == 'queryTitle') {
         (async () => {
@@ -42,18 +42,10 @@ const updateTitle = () => {
     }
 };
 
-const getCode = () => {
+const getCodeAndUrl = () => {
     const currentURL = window.location.href;
     const code = document.querySelector(CODE_SELECTOR).innerText;
-    const storedText = `# ${currentURL}\n${code}`;
-    return storedText;
-};
-
-const getCodeLink = () => {
-    const storedText = getCode();
-    const blob = new Blob([storedText], { type: 'text/python' });
-    const url = URL.createObjectURL(blob);
-    return url;
+    return { url: `# ${currentURL}`, code };
 };
 
 const waitForElm = async (selector) => {

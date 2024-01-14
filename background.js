@@ -19,6 +19,10 @@ const getState = (tab) => {
     return state[extractProblem(tab.url)];
 };
 
+chrome.commands.onCommand.addListener((command) => {
+    console.log(`Command "${command}" triggered`);
+});
+
 chrome.action.onClicked.addListener((tab) => {
     chrome.action.setBadgeText({ tabId: tab.id, text: 'hi' });
     chrome.action.setBadgeBackgroundColor({
@@ -29,9 +33,14 @@ chrome.action.onClicked.addListener((tab) => {
     (async () => {
         if (!getState(tab)) await cacheTitle(tab.id, tab);
 
-        const fileText = await chrome.tabs.sendMessage(tab.id, {
+        const { url, code } = await chrome.tabs.sendMessage(tab.id, {
             type: 'scrapeLeetCode',
         });
+
+        console.log(code);
+        // extract as what we should append
+        const comment = code.split('\n')[0];
+        console.log(comment);
 
         const { difficulty, formattedTitle } = getState(tab);
 
@@ -45,6 +54,11 @@ chrome.action.onClicked.addListener((tab) => {
             ).json()
         )['password'];
 
+        chrome.action.setBadgeBackgroundColor({
+            tabId: tab.id,
+            color: 'blue',
+        });
+
         const resp = await fetch('http://www.jasontung.me:3001/updateGithub', {
             signal: controller.signal,
             method: 'POST',
@@ -54,7 +68,7 @@ chrome.action.onClicked.addListener((tab) => {
             body: JSON.stringify({
                 difficulty,
                 formattedTitle,
-                fileText,
+                fileText: `${url}\n${code}`,
                 apiKey: password,
             }),
         });

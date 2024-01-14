@@ -4,13 +4,16 @@
     "description": "by me for me",
     "version": "1.0",
     "icons": {
-        "16": "icon.png"
+        "16": "jasbot-03.png",
+        "32": "jasbot-03.png",
+        "48": "jasbot-03.png",
+        "128": "jasbot-03.png"
     },
     "background": {
         "service_worker": "background.js"
     },
     "action": {
-        "default_icon": "icon.png",
+        "default_icon": "jasbot-03.png",
         "default_title": "Click to view a popup"
     },
     "content_scripts": [
@@ -36,6 +39,13 @@
             "suggested_key": {
                 "default": "Ctrl+B",
                 "mac": "Command+B"
+            }
+        },
+        "add_alternate": {
+            "description": "add alternative sols",
+            "suggested_key": {
+                "default": "Alt+B",
+                "mac": "Alt+B"
             }
         }
     }
