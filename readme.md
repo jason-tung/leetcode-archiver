@@ -1,6 +1,6 @@
 silly project to quickly archive leetcode solutions
 
-thank you to [my girlfriend](sharonchen.cargo.site) for making the logo
+thank you to [my girlfriend](https://sharonchen.cargo.site) for making the logo
 
 it's a chrome extension.
 
