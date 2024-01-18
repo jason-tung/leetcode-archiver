@@ -1,3 +1,5 @@
+import { postToServer } from './lib.js';
+
 const state = {};
 
 const extractProblem = (url) => {
@@ -19,12 +21,8 @@ const getState = (tab) => {
     return state[extractProblem(tab.url)];
 };
 
-chrome.commands.onCommand.addListener((command) => {
-    console.log(`Command "${command}" triggered`);
-});
-
-chrome.action.onClicked.addListener((tab) => {
-    chrome.action.setBadgeText({ tabId: tab.id, text: 'hi' });
+const uploadSolutionCallback = (tab, useCommentAsTitle) => {
+    chrome.action.setBadgeText({ tabId: tab.id, text: '...' });
     chrome.action.setBadgeBackgroundColor({
         tabId: tab.id,
         color: 'black',
@@ -37,10 +35,27 @@ chrome.action.onClicked.addListener((tab) => {
             type: 'scrapeLeetCode',
         });
 
-        console.log(code);
-        // extract as what we should append
-        const comment = code.split('\n')[0];
-        console.log(comment);
+        let suffix = '';
+
+        if (useCommentAsTitle) {
+            // extract as what we should append
+            let comment = code.split('\n')[0];
+            console.log(comment);
+            // basic checks to make sure it's formatted how we would expect
+            comment = comment.trim();
+            if (comment.charAt(0) != '#' && comment.charAt(0) != '/') {
+                console.log(
+                    'uh oh we failed to get comment!',
+                    comment,
+                    comment.charAt(0)
+                );
+            }
+
+            comment = comment.substring(1).trim().replace(/\s+/g, '-');
+            console.log('trimmed', comment);
+            //
+            suffix = '-' + comment;
+        }
 
         const { difficulty, formattedTitle } = getState(tab);
 
@@ -56,21 +71,18 @@ chrome.action.onClicked.addListener((tab) => {
 
         chrome.action.setBadgeBackgroundColor({
             tabId: tab.id,
-            color: 'blue',
+            color: '#90EE90',
         });
 
-        const resp = await fetch('http://www.jasontung.me:3001/updateGithub', {
-            signal: controller.signal,
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                difficulty,
-                formattedTitle,
-                fileText: `${url}\n${code}`,
-                apiKey: password,
-            }),
+        const resp = await postToServer({
+            controller,
+            difficulty,
+            formattedTitle,
+            suffix,
+            url,
+            code,
+            password,
+            fetchMethod: fetch,
         });
 
         const d = await resp.text();
@@ -99,7 +111,15 @@ chrome.action.onClicked.addListener((tab) => {
         // chrome.action.openPopup();
     })();
     return true;
+};
+
+chrome.commands.onCommand.addListener((command, tab) => {
+    uploadSolutionCallback(tab, true);
 });
+
+chrome.action.onClicked.addListener((tab) =>
+    uploadSolutionCallback(tab, false)
+);
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     if (

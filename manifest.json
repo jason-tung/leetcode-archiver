@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
-    "name": "leetcode-scraper",
-    "description": "by me for me",
+    "name": "leetcode-extension",
+    "description": "leetcode solution archiver by jason-tung",
     "version": "1.0",
     "icons": {
         "16": "jasbot-03.png",
@@ -10,7 +10,8 @@
         "128": "jasbot-03.png"
     },
     "background": {
-        "service_worker": "background.js"
+        "service_worker": "background.js",
+        "type": "module"
     },
     "action": {
         "default_icon": "jasbot-03.png",
