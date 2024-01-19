@@ -11,7 +11,7 @@ const generatePostElement = () => {
         difficulty: 'test',
         formattedTitle: '99999-sample',
         suffix: '',
-        url: '# http://jasontung.me:3001',
+        url: 'http://jasontung.me:3001',
         code: `
         # this is a sample code
         # random number here: ${Math.random()}

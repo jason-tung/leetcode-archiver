@@ -21,7 +21,7 @@ export const postToServer = ({
             difficulty,
             formattedTitle,
             suffix,
-            fileText: `${url}\n${code}`,
+            fileText: `# ${url}\n${code}`,
             url,
             apiKey: password,
         }),

@@ -45,7 +45,7 @@ const updateTitle = () => {
 const getCodeAndUrl = () => {
     const currentURL = window.location.href;
     const code = document.querySelector(CODE_SELECTOR).innerText;
-    return { url: `# ${currentURL}`, code };
+    return { url: currentURL, code };
 };
 
 const waitForElm = async (selector) => {
