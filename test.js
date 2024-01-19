@@ -9,7 +9,7 @@ const generatePostElement = () => {
     return {
         controller: {},
         difficulty: 'test',
-        formattedTitle: '99999-sample',
+        formattedTitle: '99999-second-sample',
         suffix: '',
         url: 'http://jasontung.me:3001',
         code: `
