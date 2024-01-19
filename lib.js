@@ -9,8 +9,9 @@ export const postToServer = ({
     code,
     password,
     fetchMethod,
+    posturl = 'http://www.jasontung.me:3001/updateGithub',
 }) =>
-    fetchMethod('http://www.jasontung.me:3001/updateGithub', {
+    fetchMethod(posturl, {
         signal: controller.signal,
         method: 'POST',
         headers: {

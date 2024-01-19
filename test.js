@@ -19,6 +19,7 @@ const generatePostElement = () => {
           print("hello wrld")
         `,
         password,
+        posturl: 'http://localhost:3001/updateGithub',
         fetchMethod: fetch,
     };
 };
@@ -26,7 +27,7 @@ const generatePostElement = () => {
 const noSuffixPostElement = generatePostElement();
 const suffixPostElement = {
     ...generatePostElement(),
-    suffix: '-this-is-suffix',
+    suffix: 'this-is-suffix',
 };
 
 const doTests = async () => {

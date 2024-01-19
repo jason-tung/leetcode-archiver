@@ -54,7 +54,7 @@ const uploadSolutionCallback = (tab, useCommentAsTitle) => {
             comment = comment.substring(1).trim().replace(/\s+/g, '-');
             console.log('trimmed', comment);
             //
-            suffix = '-' + comment;
+            suffix = comment;
         }
 
         const { difficulty, formattedTitle } = getState(tab);
