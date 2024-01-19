@@ -22,6 +22,7 @@ export const postToServer = ({
             formattedTitle,
             suffix,
             fileText: `${url}\n${code}`,
+            url,
             apiKey: password,
         }),
     });
