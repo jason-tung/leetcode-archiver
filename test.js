@@ -19,7 +19,7 @@ const generatePostElement = () => {
           print("hello wrld")
         `,
         password,
-        posturl: 'http://localhost:3001/updateGithub',
+        // posturl: 'http://localhost:3001/updateGithub',
         fetchMethod: fetch,
     };
 };
