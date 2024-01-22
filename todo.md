@@ -9,3 +9,7 @@ retractively use api to populate db
 
 FUTURE:
 make test.js point at some server specified in env
+
+make testing more automated
+
+maybe gh workflow to pull and pm2 restart from server
