@@ -29,12 +29,18 @@ const suffixPostElement = {
     ...generatePostElement(),
     suffix: 'this-is-suffix',
 };
+const improperTitleElement = {
+    ...generatePostElement(),
+    suffix: 'this-is=suffix',
+};
 
 const doTests = async () => {
     const noSuffixRet = await postToServer(noSuffixPostElement);
     console.log(await noSuffixRet.text());
     const suffixRet = await postToServer(suffixPostElement);
     console.log(await suffixRet.text());
+    const improperRet = await postToServer(improperTitleElement);
+    console.log(improperRet.status);
 };
 
 doTests();
