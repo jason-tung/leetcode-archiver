@@ -97,6 +97,11 @@ const uploadSolutionCallback = (tab, useCommentAsTitle) => {
                 tabId: tab.id,
                 text: badgeText,
             });
+        } else if (resp.status == 501) {
+            chrome.action.setBadgeBackgroundColor({
+                tabId: tab.id,
+                color: 'orange',
+            });
         } else {
             console.log(resp);
             chrome.action.setBadgeBackgroundColor({
