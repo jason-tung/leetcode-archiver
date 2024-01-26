@@ -8,7 +8,6 @@ set up test to post to db
 retractively use api to populate db
 
 FUTURE:
-PREVENT PUSHING MALFORMED SUBMISSIONS!
 
 make test.js point at some server specified in env
 
