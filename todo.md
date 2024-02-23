@@ -14,3 +14,5 @@ make test.js point at some server specified in env
 make testing more automated
 
 maybe gh workflow to pull and pm2 restart from server
+
+clicking button pops open latest commit
