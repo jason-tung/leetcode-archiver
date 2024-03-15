@@ -1,6 +1,7 @@
 import { postToServer } from './lib.js';
 
 const state = {};
+let last_url = '';
 
 const extractProblem = (url) => {
     return /(?:problems\/)([^/]+)/.exec(url)[1];
@@ -88,7 +89,8 @@ const uploadSolutionCallback = (tab, useCommentAsTitle) => {
         const d = await resp.text();
 
         if (resp.status == 200) {
-            const badgeText = d.substring(0, d.indexOf('-')).replace(/^0+/, '');
+            // const badgeText = d.substring(0, d.indexOf('-')).replace(/^0+/, '');
+            const badgeText = ':)';
             chrome.action.setBadgeBackgroundColor({
                 tabId: tab.id,
                 color: 'green',
@@ -97,6 +99,8 @@ const uploadSolutionCallback = (tab, useCommentAsTitle) => {
                 tabId: tab.id,
                 text: badgeText,
             });
+            // so we can pop it open later
+            last_url = d;
         } else if (resp.status == 501) {
             chrome.action.setBadgeBackgroundColor({
                 tabId: tab.id,
@@ -118,13 +122,30 @@ const uploadSolutionCallback = (tab, useCommentAsTitle) => {
     return true;
 };
 
+const openLastUrl = (tab) => {
+    if (last_url && last_url.length) {
+        chrome.tabs.create({ url: last_url });
+    } else {
+        console.log('broke', last_url);
+        chrome.action.setBadgeBackgroundColor({
+            tabId: tab.id,
+            color: 'red',
+        });
+        chrome.action.setBadgeText({
+            tabId: tab.id,
+            text: 'brok:(',
+        });
+    }
+};
+
 chrome.commands.onCommand.addListener((command, tab) => {
-    uploadSolutionCallback(tab, true);
+    console.log('command triggered', command);
+    if (command == 'add_alternate') uploadSolutionCallback(tab, true);
+    else if (command == 'add_regular') uploadSolutionCallback(tab, false);
+    else if (command == 'pop_open_tab') openLastUrl(tab);
 });
 
-chrome.action.onClicked.addListener((tab) =>
-    uploadSolutionCallback(tab, false)
-);
+chrome.action.onClicked.addListener((tab) => openLastUrl(tab));
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     if (
